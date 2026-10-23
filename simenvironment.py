@@ -7,13 +7,13 @@ g=9.80665
 
 rng=np.random.default_rng()
 
-st_pos=np.r_[rng.uniform(-15,15,size=2),rng.uniform(10,15)]
+st_pos=np.r_[rng.uniform(-25,25,size=2),rng.uniform(10,15)]
 st_velocity=np.array(rng.uniform(-4,4,size=3))
 print(st_pos)
 print(st_velocity)
 
 try:
-    cur_pos=st_pos
+    cur_pos=st_pos.copy()
     cur_z_velocity=st_velocity[2]
     x_positions=[cur_pos[0]]
     y_positions=[cur_pos[1]]
@@ -28,12 +28,8 @@ try:
         cur_pos[1]=cur_pos[1]-st_velocity[1]*dt
 
         #change z position and velocity
-        if st_velocity[2]>0:
-            cur_pos[2]=(cur_pos[2]+(cur_z_velocity*dt-0.5*g*(dt**2)))
-            cur_z_velocity=cur_z_velocity-g*dt
-        else:
-            cur_pos[2]=(cur_pos[2]-(cur_z_velocity*dt+0.5*g*(dt**2)))
-            cur_z_velocity=cur_z_velocity+g*dt
+        cur_pos[2]=(cur_pos[2]+(cur_z_velocity*dt-0.5*g*(dt**2)))
+        cur_z_velocity=cur_z_velocity-g*dt
         x_positions.append(cur_pos[0])
         y_positions.append(cur_pos[1])
         z_positions.append(cur_pos[2])
@@ -50,12 +46,12 @@ try:
     fig,axs=plt.subplots(2)
 
     axs[0].plot(z_positions)
-    plt.title("Zposition")
+    axs[0].set_title("Zposition")
     plt.ylabel('Height')
     plt.xlabel('Time')
 
     axs[1].plot(x_positions,y_positions)
-    plt.title("Horizontal Position")
+    axs[1].set_title("Horizontal Position")
     plt.ylabel('Yposition')
     plt.xlabel('Xposition')
     
