@@ -11,7 +11,7 @@ def gendot():
         x_vel=random.uniform(20,25)
     y_vel=random.uniform(-2,2)
     int_pos=[float(x_int),float(y_int)]
-    return {"pos":int_pos,"x_vel":x_vel,"y_vel":y_vel,"trail":[]}
+    return {"pos":int_pos,"x_vel":x_vel,"y_vel":y_vel,"trail":[],'predicted_x_vel':0,'predicted_y_vel':0,'vxs':[],'vys':[]}
 
 pygame.init()
 
@@ -97,7 +97,19 @@ while running:
             break
 
         #path predicting logic
-        
+        if len(active_dot['trail'])==2:
+            #first second fall
+            s1=active_dot['trail'][-1][1]-active_dot['trail'][-2][1]
+            #predicting initial y velocity using 2nd 1/60 interval traveling distance
+            active_dot['predicted_y_vel']=60*s1-g/40
+            #prediction initial x veocity using first 1/60 second traveling distances
+            active_dot['predicted_x_vel']=(active_dot['trail'][-1][0]-active_dot['trail'][-2][0])/t
+            
+            print(active_dot['predicted_x_vel'])
+            print(active_dot['predicted_y_vel'])
+        else:
+            pass
+
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
