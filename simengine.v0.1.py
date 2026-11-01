@@ -9,9 +9,9 @@ def gendot():
         x_vel=random.uniform(-20,-25)
     else:
         x_vel=random.uniform(20,25)
-    y_vel=random.uniform(-2,2)
+    y_vel=random.uniform(-20,2)
     int_pos=[float(x_int),float(y_int)]
-    return {"pos":int_pos,"x_vel":x_vel,"y_vel":y_vel,"trail":[],'predicted_x_vel':0,'predicted_y_vel':0,'vxs':[],'vys':[]}
+    return {"pos":int_pos,"x_vel":x_vel,"y_vel":y_vel,"trail":[],'predicted_x_vel':0,'predicted_y_vel':0,'xs':[],'ys':[],'status':False}
 
 pygame.init()
 
@@ -96,7 +96,7 @@ while running:
             print('hit count : ',hit_count)
             break
 
-        #path predicting logic
+        #velocity predicting logic
         if len(active_dot['trail'])==2:
             #first second fall
             s1=active_dot['trail'][-1][1]-active_dot['trail'][-2][1]
@@ -109,6 +109,17 @@ while running:
             print(active_dot['predicted_y_vel'])
         else:
             pass
+
+        #path predicting logic
+        #predicting_running =True
+
+        while running:
+            if(active_dot['status']==False):
+        #        active_dot["xs"].append(active_dot['pos'][0])
+                for i in range (5):
+                    print(i)
+                predicting_running=False
+                active_dot['status']=True
 
     pygame.display.flip()
     clock.tick(60)
