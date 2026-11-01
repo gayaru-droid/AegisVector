@@ -11,7 +11,7 @@ def gendot():
         x_vel=random.uniform(20,25)
     y_vel=random.uniform(-20,2)
     int_pos=[float(x_int),float(y_int)]
-    return {"pos":int_pos,"x_vel":x_vel,"y_vel":y_vel,"trail":[],'predicted_x_vel':0,'predicted_y_vel':0,'xs':[],'ys':[],'status':False}
+    return {"pos":int_pos,"x_vel":x_vel,"y_vel":y_vel,"trail":[],'predicted_x_vel':0,'predicted_y_vel':0,'xs':[float(x_int)],'ys':[float(y_int)],'status':False}
 
 pygame.init()
 
@@ -108,18 +108,32 @@ while running:
             print(active_dot['predicted_x_vel'])
             print(active_dot['predicted_y_vel'])
         else:
-            pass
+            continue
 
         #path predicting logic
-        #predicting_running =True
+        predicting_running =True
 
-        while running:
-            if(active_dot['status']==False):
-        #        active_dot["xs"].append(active_dot['pos'][0])
-                for i in range (5):
-                    print(i)
-                predicting_running=False
-                active_dot['status']=True
+        if(active_dot['status']==False):
+    #        active_dot["xs"].append(active_dot['pos'][0])
+
+            #predicting next x positions
+            for i in range (10):
+                next_x_pos=active_dot['xs'][-1]+active_dot['predicted_x_vel']
+                active_dot['xs'].append(next_x_pos)
+
+            #predicting next y poitions
+            for i in range (10):
+                next_y_pos=active_dot['ys'][-1]+active_dot['predicted_y_vel']+0.5*g
+                active_dot['ys'].append(next_y_pos)
+                active_dot['predicted_y_vel']=active_dot['predicted_y_vel']+g
+                print('predicted vel is:' + str(active_dot['predicted_y_vel']))
+            print('predicted xs are: ' + str(active_dot['xs']))
+            print('predicted ys are: ' + str(active_dot['ys']))
+            predicting_running=False
+            active_dot['status']=True
+            break
+        else:
+            continue
 
     pygame.display.flip()
     clock.tick(60)
