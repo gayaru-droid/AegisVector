@@ -105,8 +105,8 @@ while running:
             #prediction initial x veocity using first 1/60 second traveling distances
             active_dot['predicted_x_vel']=(active_dot['trail'][-1][0]-active_dot['trail'][-2][0])/t
             
-            print(active_dot['predicted_x_vel'])
-            print(active_dot['predicted_y_vel'])
+            #print(active_dot['predicted_x_vel'])
+            #print(active_dot['predicted_y_vel'])
 
         #path predicting logic
         else:
@@ -129,13 +129,17 @@ while running:
                 active_dot['ys'].append(next_y_pos)
                 active_dot['predicted_y_vel']=active_dot['predicted_y_vel']+g
             #print('predicted vel is:' + str(active_dot['predicted_y_vel']))
-            print('predicted xs are: ', str(active_dot['xs']))
-            print('predicted ys are: ', str(active_dot['ys']))
+            #print('predicted xs are: ', str(active_dot['xs']))
+            #print('predicted ys are: ', str(active_dot['ys']))
             active_dot['status']['predicted']=True
-        else:
+        elif active_dot['status']['predicted']==True:
             #print('done')
+            pathline=[]
             for i in range(len(active_dot['xs'])):
-                pygame.draw.circle(screen,gray,(active_dot['xs'][i],active_dot['ys'][i]),1,width=0)
+                pygame.draw.circle(screen,green,(active_dot['xs'][i],active_dot['ys'][i]),3,width=0)
+                pathline.append((active_dot['xs'][i],active_dot['ys'][i]))
+            pygame.draw.lines(screen,gray,False,pathline,width=1)
+            #print('pathline is: ',str(pathline))
 
     pygame.display.flip()
     clock.tick(60)
